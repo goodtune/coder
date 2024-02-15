@@ -1343,7 +1343,7 @@ func (api *API) watchWorkspace(rw http.ResponseWriter, r *http.Request) {
 		<-senderClosed
 	}()
 
-	sendUpdate := func(_ context.Context, description []byte) {
+	sendUpdate := func(_ context.Context, _ []byte) {
 		workspace, err := api.Database.GetWorkspaceByID(ctx, workspace.ID)
 		if err != nil {
 			_ = sendEvent(ctx, codersdk.ServerSentEvent{

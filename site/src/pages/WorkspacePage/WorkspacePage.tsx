@@ -1,7 +1,6 @@
 import { type FC, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import merge from "lodash/merge";
 import { watchWorkspace } from "api/api";
 import type { Workspace } from "api/typesGenerated";
 import { workspaceBuildsKey } from "api/queries/workspaceBuilds";
