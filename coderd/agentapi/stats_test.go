@@ -175,7 +175,7 @@ func TestUpdateStates(t *testing.T) {
 		publishAgentStats := make(chan bool)
 		ps.Subscribe(codersdk.WorkspaceNotifyChannel(workspace.ID), func(_ context.Context, description []byte) {
 			go func() {
-				publishAgentStats <- bytes.Equal(description, codersdk.WorkspaceNotifyDescriptionAgentStatsOnly)
+				publishAgentStats <- bytes.Equal(description, []byte{})
 				close(publishAgentStats)
 			}()
 		})

@@ -140,7 +140,7 @@ func (a *StatsAPI) UpdateStats(ctx context.Context, req *agentproto.UpdateStatsR
 }
 
 func (a *StatsAPI) publishWorkspaceAgentStats(ctx context.Context, workspaceID uuid.UUID) {
-	err := a.Pubsub.Publish(codersdk.WorkspaceNotifyChannel(workspaceID), codersdk.WorkspaceNotifyDescriptionAgentStatsOnly)
+	err := a.Pubsub.Publish(codersdk.WorkspaceNotifyChannel(workspaceID), []byte{})
 	if err != nil {
 		a.Log.Warn(ctx, "failed to publish workspace agent stats",
 			slog.F("workspace_id", workspaceID), slog.Error(err))
