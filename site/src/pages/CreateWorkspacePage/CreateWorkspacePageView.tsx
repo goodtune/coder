@@ -147,6 +147,10 @@ export const CreateWorkspacePageView: FC<CreateWorkspacePageViewProps> = ({
     );
   }, [autofillParameters]);
 
+  const hasAllRequiredExternalAuth = externalAuth.every(
+    (auth) => auth.optional || auth.authenticated,
+  );
+
   return (
     <Margins size="medium">
       <PageHeader actions={<Button onClick={onCancel}>Cancel</Button>}>
@@ -251,13 +255,15 @@ export const CreateWorkspacePageView: FC<CreateWorkspacePageViewProps> = ({
             description="This template requires authentication to external services."
           >
             <FormFields>
-              {requiresExternalAuth && (
-                // This should really be a `notice` but `severity` is a MUI prop, and we'd need
-                // to basically make our own `Alert` component.
+              {hasAllRequiredExternalAuth ? (
                 <Alert severity="info">
-                  To create a workspace using the selected template, please
-                  ensure you are authenticated with all the external providers
-                  listed below.
+                  This template can connect to the external authentication
+                  providers listed below.
+                </Alert>
+              ) : (
+                <Alert severity="error">
+                  To create a workspace using this template, please connect to
+                  all required external authentication providers listed below.
                 </Alert>
               )}
               {externalAuth.map((auth) => (
@@ -313,6 +319,7 @@ export const CreateWorkspacePageView: FC<CreateWorkspacePageViewProps> = ({
         <FormFooter
           onCancel={onCancel}
           isLoading={creatingWorkspace}
+          submitDisabled={!hasAllRequiredExternalAuth}
           submitLabel="Create Workspace"
         />
       </HorizontalForm>

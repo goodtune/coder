@@ -1,11 +1,12 @@
 import ReplayIcon from "@mui/icons-material/Replay";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import { type FC } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { visuallyHidden } from "@mui/utils";
+import { type FC } from "react";
+import type { TemplateVersionExternalAuth } from "api/typesGenerated";
 import { ExternalImage } from "components/ExternalImage/ExternalImage";
-import { TemplateVersionExternalAuth } from "api/typesGenerated";
+import { Pill } from "components/Pill/Pill";
 
 export interface ExternalAuthButtonProps {
   auth: TemplateVersionExternalAuth;
@@ -51,6 +52,11 @@ export const ExternalAuthButton: FC<ExternalAuthButtonProps> = ({
           {auth.authenticated
             ? `Authenticated with ${auth.display_name}`
             : `Login with ${auth.display_name}`}
+          {!auth.optional && !auth.authenticated && (
+            <Pill type="error" css={{ marginLeft: 8 }}>
+              Required
+            </Pill>
+          )}
         </LoadingButton>
 
         {displayRetry && (
